@@ -31,7 +31,8 @@ module.exports.getLinkUrl = function getLinkUrl (currentUrl, element) {
 }
 
 module.exports.getPageLinks = function getPageLinks (currentUrl, body) {
-  return [].slice.call(cheerio.load(body)('a'))
+  const loadedBody = cheerio.load(body)
+  return [].slice.call(loadedBody('a'))
     .map((element) => module.exports.getLinkUrl(currentUrl, element))
     .filter((element) => !!element)
 }

@@ -5,13 +5,14 @@ const fs = require('fs')
 const mkdirp = require('mkdirp')
 const path = require('path')
 const utilities = require('./utilities')
+const DEFAULT_NESTING = 1
 
 function spiderLinks (currentUrl, body, nesting, callback) {
-  if (nesting === 0) {
-    return process.nextTick(callback)
-  }
-
   const links = utilities.getPageLinks(currentUrl, body)
+  if (nesting === 0 || links.length === 0) {
+    return process.nextTick(callback)
+
+  }
   const iterate = (index) => {
     if (index === links.length) {
       return callback()
@@ -57,11 +58,12 @@ function spider (url, nesting, callback) {
   const fileName = utilities.urlToFilename(url)
   fs.readFile(fileName, 'utf-8', (err, body) => {
     if (err) {
-      if (err.code !== 'ENOENT') {
+      const fileNotFound = err.code === 'ENOENT'
+      if (!fileNotFound) {
         return callback(err)
       }
 
-      return download(url, fileName, err => {
+      return download(url, fileName, (err, body) => {
         if (err) {
           return callback(err)
         }
@@ -73,7 +75,7 @@ function spider (url, nesting, callback) {
   })
 }
 
-spider(process.argv[2], 1, (err, filename, downloaded) => {
+spider(process.argv[2], DEFAULT_NESTING, (err, filename, downloaded) => {
   if (err) {
     console.log(err)
   } else if (downloaded) {
