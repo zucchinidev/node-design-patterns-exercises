@@ -5,7 +5,8 @@ const fs = require('fs')
 const mkdirp = require('mkdirp')
 const path = require('path')
 const utilities = require('../tools/url')
-
+const DEFAULT_NESTING = 1
+const spidering = new Map()
 function spiderLinks (currentUrl, body, nesting, callback) {
   let hasErrors = false
   let completed = 0
@@ -55,6 +56,11 @@ function download (url, fileName, callback) {
 }
 
 function spider (url, nesting, callback) {
+  if (spidering.has(url)) {
+    return process.nextTick(callback)
+  }
+  spidering.set(url, true)
+
   const fileName = utilities.urlToFilename(url)
   fs.readFile(fileName, 'utf-8', (err, body) => {
     if (err) {
@@ -75,7 +81,7 @@ function spider (url, nesting, callback) {
   })
 }
 
-spider(process.argv[2], 1, (err, filename, downloaded) => {
+spider(process.argv[2], DEFAULT_NESTING, (err, filename, downloaded) => {
   if (err) {
     console.log(err)
   } else if (downloaded) {
