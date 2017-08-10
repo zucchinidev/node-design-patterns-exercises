@@ -56,7 +56,7 @@ function download (url, fileName) {
 
 const spidering = new Map()
 
-function spider (url, nesting, callback) {
+function spider (url, nesting) {
   if (spidering.has(url)) {
     return Promise.resolve()
   }
