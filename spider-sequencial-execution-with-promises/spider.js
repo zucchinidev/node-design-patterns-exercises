@@ -25,15 +25,6 @@ function spiderLinks (currentUrl, body, nesting) {
   return promise
 }
 
-function saveFile (fileName, contents, callback) {
-  mkdirp(path.dirname(fileName), err => {
-    if (err) {
-      return callback(err)
-    }
-    fs.writeFile(fileName, contents, callback)
-  })
-}
-
 function download (url, fileName) {
   console.log(`Downloading ${url}`)
   let body
