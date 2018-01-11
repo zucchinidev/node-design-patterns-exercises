@@ -1,3 +1,4 @@
+// Readable Streams: receive the data in non-flowing mode
 // cat file.txt | node readStdin.js
 process.stdin
   .on('readable', () => {
