@@ -1,0 +1,7 @@
+Description
+
+The await expression causes async function execution to pause until  a Promise is fulfilled or rejected, and to resume execution of the async function after fulfillment. When resumed, the value of the await expression is that of the fulfilled Promise.
+
+If the Promise is rejected, the await expression throws the rejected value.
+
+If the value of the expression following the await operator is not a Promise, it's converted to a resolved Promise.

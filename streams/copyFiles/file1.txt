@@ -1,0 +1,7 @@
+Syntax
+
+[rv] = await expression;
+expression
+A Promise or any value to wait for.
+rv
+Returns the fulfilled value of the promise, or the value itself if it's not a Promise.
