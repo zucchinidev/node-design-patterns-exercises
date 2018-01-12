@@ -1,0 +1,48 @@
+Syntax
+
+[rv] = await expression;
+expression
+A Promise or any value to wait for.
+rv
+Returns the fulfilled value of the promise, or the value itself if it's not a Promise.
+Description
+
+The await expression causes async function execution to pause until  a Promise is fulfilled or rejected, and to resume execution of the async function after fulfillment. When resumed, the value of the await expression is that of the fulfilled Promise.
+
+If the Promise is rejected, the await expression throws the rejected value.
+
+If the value of the expression following the await operator is not a Promise, it's converted to a resolved Promise.
+Examples
+
+If a Promise is passed to an await expression, it waits for the Promise to be fulfilled and returns the fulfilled value.
+
+function resolveAfter2Seconds(x) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(x);
+    }, 2000);
+  });
+}
+
+async function f1() {
+  var x = await resolveAfter2Seconds(10);
+  console.log(x); // 10
+}
+f1();
+If the value is not a Promise, it converts the value to a resolved Promise, and waits for it.
+
+async function f2() {
+  var y = await 20;
+  console.log(y); // 20
+}
+f2();
+If the Promise is rejected, the rejected value is thrown.
+
+async function f3() {
+  try {
+    var z = await Promise.reject(30);
+  } catch(e) {
+    console.log(e); // 30
+  }
+}
+f3();
