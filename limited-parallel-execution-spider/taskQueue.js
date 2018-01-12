@@ -1,7 +1,7 @@
 module.exports = class TaskQueue {
   constructor (concurrency) {
     this.concurrency = concurrency
-    this.running = 0
+    this.runningTask = 0
     this.queue = []
   }
 
@@ -11,13 +11,13 @@ module.exports = class TaskQueue {
   }
 
   next () {
-    while (this.running < this.concurrency && this.queue.length) {
+    while (this.runningTask < this.concurrency && this.queue.length) {
       const task = this.queue.shift()
       task(() => {
-        this.running -= 1
+        this.runningTask -= 1
         this.next()
       })
-      this.running += 1
+      this.runningTask += 1
     }
   }
 }
